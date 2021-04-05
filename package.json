@@ -4,6 +4,7 @@
   "description": "to do api",
   "main": "getzinho.js",
   "scripts": {
+    "start": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,10 @@
   },
   "homepage": "https://github.com/GabrielSouzaHub/toDoApi-Resilia#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
