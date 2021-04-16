@@ -1,12 +1,15 @@
-const tarefa = require('../models/tarefa')
+const Tarefa = require('../models/tarefa');
 
-function tarefaControl(app){
+function tarefaControl(app, bd){
     app.get('/tarefa',(_, response)=>{
-        response.send(tarefa.get());
+        const tarefas = bd.tarefas
+        response.send(tarefas);
     });
     app.post('/tarefa',(request, response)=>{
-        tarefa.get().push(request.body)
-        response.send(tarefa.get());
+        const body = request.body
+        let tarefa = new Tarefa(body.id,body.nome,body.data,body.urgencia)
+        bd.tarefas.push(tarefa)
+        response.send(tarefa)
     });    
 }
 
