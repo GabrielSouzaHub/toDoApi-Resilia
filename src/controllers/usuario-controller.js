@@ -1,42 +1,63 @@
-const UsuarioModelo = require('../models/usuario')
-const UsuarioDao = require('../DAO/usuarios-dao')
+const UsuarioModelo = require('../models/usuario');
+const UsuarioDao = require('../DAO/usuarios-dao');
 
 const request = require('supertest')
 
 function usuarioControl(app, bd){
     const usuarioDAO = new UsuarioDao(bd)
     let users = bd.usuarios
-    app.get('/usuarios',(request,response)=>{
-        usuarioDAO.listaUsuarios()
-        .then( usuarios => response.send(usuarios))
-        .catch( err => response.send({mensagem: "Falha ao listar usuários"}))
+    app.get('/usuarios',(req,res)=>{
+        const data = async() => {
+            try{
+                const usuarios = await usuarioDAO.listaUsuarios((a)=>{res.send(a)});
+            } catch(err) {
+                res.send(err);
+            }
+        }
+        data();
     });
     
-    app.get('/usuarios/:email',(request,response)=>{
-        const email = request.params.email
-        const user = users.find(user => user._email == email)
-        response.send(user)
+    app.get('/usuarios/:id',(req,res)=>{
+        const data = async() => {
+            try{
+                const usuario = await usuarioDAO.buscaUsuario(req.params.id);
+                res.send(usuario);
+            } catch(err) {
+                res.send(err);
+            }
+        }
+        data();
     })
-    app.post('/usuarios',(request,response)=>{
-        const body = request.body;
-        let usuario = new UsuarioModelo(0, body.nome, body.email, body.senha);
-        usuarioDAO.insereUsuario(usuario)
-            .then((mensagemSucesso) => response.send( {mensagem: mensagemSucesso}))
-            .catch((mensagemFalha) => response.send( {mensagem: mensagemFalha}))
+    app.post('/usuarios',(req,res)=>{
+        const body = req.body;
+        const data = async() => {
+            try{
+                usuarioDAO.insereUsuario(new UsuarioModelo(0, body.nome, body.email, body.senha));
+                res.send(`Usuário inserido com sucesso`);
+            } catch(err) {
+                res.send(err);
+            }
+        }
+        data();
     });
-    app.delete('/usuarios/:email', (request,response)=>{
-        const email = request.params.email;
-        const newUsers = users.filter(user => user._email != email);
-        users = newUsers;
-        response.send(`Email:${request.params.email} deletado`);
+    app.delete('/usuarios/:id', (req,res)=>{
+        const data = async() => {
+            try{
+                usuarioDAO.deletaUsuario(req.params.id);
+                res.send(`Usuário deletado com sucesso`);
+            } catch(err) {
+                res.send(err);
+            }
+        }
+        data();
     });
-    app.put('/usuarios/:email', (request,response)=>{
-        const email = request.params.email
+    app.put('/usuarios/:email', (req,res)=>{
+        const email = req.params.email
         users.find(user => {
             user._email == email
-            user._email = request.body._email
+            user._email = req.body._email
         })
-        response.send(users)
+        res.send(users)
     });
 }
 
