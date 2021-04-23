@@ -27,7 +27,7 @@ node ./src/index.js
 Para executar o projeto
 
 ## Rotas para serem utilizadas
-## 😊 Usuário:
+## <strong><p style="text-align: center">😊Usuários</p></strong>
 ### GET: '/usuarios'
 Busca todos usuários
 ### GET: '/usuarios/:id'
@@ -36,7 +36,7 @@ Busca um usuário específico com o id fornecido
 Insere um usuário
 ### DELETE: '/usuarios/:id'
 Deleta um usuário específico com o id fornecido
-## 📆 Tarefa:
+## <strong><p style="text-align: center">📆TAREFAS</p></strong>
 ### GET: '/tarefas'
 Busca todas tarefas
 ### GET: '/tarefas/:id'
